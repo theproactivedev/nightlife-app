@@ -66,6 +66,21 @@ p {
  position: relative;
 }
 
+.icons {
+  font-size: 60px;
+  color: #000;
+  text-align: center;
+  display: block;
+}
+
+.icons i {
+  margin-right: 8px;
+}
+
+.icons i:last-of-type {
+  margin-right: 0;
+}
+
 footer {
   padding-top: 50px;
 }

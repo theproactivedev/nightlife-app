@@ -29,7 +29,7 @@ class Navigation extends Component {
             {
               "identity" : user.twitterProvider.identification,
               "name" : user.twitterProvider.name,
-              "token" : user.twitterProvider.token
+              "token" : token
             }
           )
         );
@@ -40,7 +40,7 @@ class Navigation extends Component {
           identification: person.identity,
           token: person.token
         });
-        this.props.onUserLogin(true, person.name, person.identity);
+        this.props.onUserLogin(true, person.name, person.identity, person.token);
       }
     });
   }

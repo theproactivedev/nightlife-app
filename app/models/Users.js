@@ -3,11 +3,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var userReservation = new Schema({
-  businessId: String,
-  name: String,
-  url: String,
-  address: String
+var ReservationSchema = new Schema({
+  businessId: String
 });
 
 var UserSchema = new Schema({
@@ -19,10 +16,9 @@ var UserSchema = new Schema({
       tokenSecret: String
     }
   },
-  reservations: [userReservation]
+  reservations: [ReservationSchema],
+  searchedPlace: String
 });
-
-UserSchema.set('toJSON', {getters: true, virtuals: true});
 
 UserSchema.statics.upsertTwitterUser = function(token, tokenSecret, profile, cb) {
   var that = this;

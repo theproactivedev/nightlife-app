@@ -16,9 +16,10 @@ module.exports = function(app, passport) {
   var createToken = function(auth) {
     return jwt.sign({
       id: auth.id
-    }, 'my-secret',
+    },
+    'my-secret',
     {
-      expiresIn: 60 * 120
+      expiresIn: 60 * 60 * 24
     });
   };
 
@@ -35,15 +36,13 @@ module.exports = function(app, passport) {
   var isContentNotEmpty = function(req, res, next) {
     if (req.body !== undefined) {
       return next();
-      console.log("Content loaded");
     }
   };
 
   var getResults = function(req, res) {
     const searchRequest = {
-      term: req.body.term,
-      location: req.body.city,
-      cll: req.body.loc
+      term: "restaurant",
+      location: req.params.place
     };
     var output = [];
 
@@ -54,16 +53,39 @@ module.exports = function(app, passport) {
         var firstResult = response.jsonBody.businesses;
         output = firstResult.slice(0);
         // const prettyJson = JSON.stringify(firstResult, null, 4);
+
         res.json(output);
       });
     }).catch(e => {
       console.log(e);
     });
 
-    // console.log("Req.user.id: " + req.user.id);
-    // console.log("Req.auth.id: " + req.auth.id);
-    console.log("Req.headers: " + req.headers["x-auth-token"]);
+  };
 
+  var authenticate = expressJwt({
+    secret: 'my-secret',
+    requestProperty: 'auth',
+    getToken: function(req) {
+      if (req.headers['x-auth-token']) {
+        return req.headers['x-auth-token'];
+      } else {
+        console.log("No token");
+      }
+      return null;
+    }
+  });
+
+  var getCurrentUser = function(req, res, next) {
+    Users.findOne({
+      "_id" : req.auth.id
+    }, function(err, user) {
+      if (err) {
+        next(err);
+      } else {
+        req.user = user;
+        next();
+      }
+    });
   };
 
   router.route('/auth/twitter/reverse')
@@ -99,11 +121,8 @@ module.exports = function(app, passport) {
         if (err) {
           return res.send(500, { message: err.message });
         }
-
-        console.log(body);
         const bodyString = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
         const parsedBody = JSON.parse(bodyString);
-
         req.body['oauth_token'] = parsedBody.oauth_token;
         req.body['oauth_token_secret'] = parsedBody.oauth_token_secret;
         req.body['user_id'] = parsedBody.user_id;
@@ -120,25 +139,23 @@ module.exports = function(app, passport) {
           id: req.user.id
         };
 
-        console.log("Req user id" + req.user.id);
 
         return next();
       }, generateToken, sendToken);
 
-  app.use('/api/v1', router);
 
-  app.route('/search').post(isContentNotEmpty, getResults);
+  app.route('/search/:place').get(getResults);
 
-  app.route('/addingUserReservation').post(function(req, res) {
+  app.route('/addingUserReservation')
+  .post(authenticate, getCurrentUser,
+    isContentNotEmpty,
+    function(req, res) {
     var obj = {
-      businessId: req.body.businessId,
-      name: req.body.name,
-      url: req.body.url,
-      address: req.body.address
-    }
+      businessId: req.body.businessId
+    };
 
-    Users.findOneAndUpdate(
-      {"twitterProvider.identification": req.body.userId},
+    Users.update(
+      {"_id": req.auth.id},
       {$push : { "reservations": obj } },
       {upsert: true, new: true},
       function(err) {
@@ -147,22 +164,48 @@ module.exports = function(app, passport) {
     );
   });
 
-  app.route("/userReservations").post(function(req, res) {
-    Users.find({
-      "twitterProvider.identification": req.body.userId
+  app.route('/removingUserReservation')
+  .post(authenticate, getCurrentUser,
+    isContentNotEmpty, function(req, res) {
+      console.log("Id: " + req.body.identification);
+    Users.findOneAndUpdate(
+      {"_id": req.auth.id},
+      {$pull : { "reservations" : { businessId : req.body.identification } } },
+      function(err) {
+        if (err) console.log(err);
+      }
+    );
+  });
+
+  app.route("/userReservations")
+  .get(authenticate, getCurrentUser, function(req, res) {
+    Users.findOne({
+      "_id": req.auth.id
     }, function(err, data) {
       if (err) {
         console.log(err);
       }
-
-      // if(data.reservations.length > 0) {
-      //   res.json(data.reservations);
-      // }
 
       if(data) {
         res.json(data);
       }
     });
   });
+
+  app.route("/savingSearchedPlace")
+  .post(authenticate, getCurrentUser,
+    isContentNotEmpty, function(req, res) {
+
+    Users.findOneAndUpdate(
+      {"_id": req.auth.id},
+      {$set : { "searchedPlace" : req.body.place} },
+      function(err) {
+        if (err) console.log(err);
+      }
+    );
+
+  });
+
+  app.use('/api/v1', router);
 
 };
