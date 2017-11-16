@@ -10,7 +10,7 @@ class Content extends Component {
       place: "",
       results: [],
       userReservations: []
-    }
+    };
 
     this.submitForm = this.submitForm.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -45,17 +45,17 @@ class Content extends Component {
   handleSearchChange(e) {
     if (e.target.value === "") {
       this.setState({
-        results: []
+        results: [],
+        place: ""
       });
     } else {
       this.setState({
-        place: e.target.value
+        place: e.target.value,
       });
     }
   }
 
   handlePostContent(url, obj) {
-    console.log(JSON.stringify(obj));
 
     fetch(url, {
       method: "POST",
@@ -82,30 +82,24 @@ class Content extends Component {
     .catch(this.handleError);
   }
 
-  getUserReservations() {
+  getUserReservations(token) {
     var that = this;
     var request = new Request('/userReservations', {
       method: "GET",
-    	headers: new Headers({
-        'Content' : 'text/plain',
-        'x-auth-token' : this.props.userToken
-    	})
+      headers: new Headers({
+        'Content' : 'application/json',
+        'x-auth-token' : token
+      })
     });
-
     fetch(request)
     .then(this.handleResponse)
     .then(function(data) {
-      // let searchedPlace = data.searchedPlace === undefined ? "Sta. Rosa, Laguna" :
-      // data.searchedPlace;
-      // // console.log(data.reservations[0].businessId);
       that.setState({
         place: data.searchedPlace,
         userReservations: data.reservations
       }, that.getSearchResults);
     })
     .catch(this.handleError);
-    console.log("Done");
-
   }
 
   saveSearchedPlace() {
@@ -118,7 +112,9 @@ class Content extends Component {
   submitForm(e) {
 		e.preventDefault();
     this.getSearchResults();
-    this.saveSearchedPlace();
+    if (this.props.isUserAuthenticated) {
+      this.saveSearchedPlace();
+    }
   }
 
   removeUser(id) {
@@ -146,24 +142,15 @@ class Content extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log("outside if");
-    console.log(this.props.isUserAuthenticated + " is user logged in?");
-    if (this.props.isUserAuthenticated) {
-      console.log("Happening");
-      this.getUserReservations();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.userToken !== "") {
+      this.getUserReservations(nextProps.userToken);
     }
   }
 
-  componentDidUpdate() {
-    if (!this.props.isUserAuthenticated && this.state.results.length > 0) {
-      this.setState({
-        place: "",
-        results: [],
-        userReservations: []
-      });
-
-      document.getElementById("searchBar").value = "";
+  componentWillMount() {
+    if (this.props.isUserAuthenticated) {
+      this.getUserReservations(this.props.userToken);
     }
   }
 

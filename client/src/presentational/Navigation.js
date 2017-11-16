@@ -40,7 +40,7 @@ class Navigation extends Component {
           identification: person.identity,
           token: person.token
         });
-        this.props.onUserLogin(true, person.name, person.identity, person.token);
+        this.props.onUserLogin(person.name, person.identity, person.token);
       }
     });
   }

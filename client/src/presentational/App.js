@@ -28,9 +28,9 @@ class App extends Component {
 		}
 	}
 
-	onLogin(isUserAuthenticated, userName, userId, userToken) {
+	onLogin(userName, userId, userToken) {
 		this.setState({
-			isAuthenticated: isUserAuthenticated,
+			isAuthenticated: true,
 			user: userName,
 			identification: userId,
 			token: userToken

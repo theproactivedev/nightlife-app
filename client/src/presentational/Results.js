@@ -2,46 +2,58 @@ import React, { Component } from 'react';
 
 class Results extends Component {
 
-  // didUserReserveThis(businessId) {
-  //   let reservations = this.props.reservations;
-  //   for(let i = 0; i < reservations.length; i++) {
-  //     if (reservations[i].businessId === businessId) {
-  //       console.log("R: " + reservations[i].businessId);
-  //       console.log("Search: " + businessId);
-  //       return "Going";
-  //     }
-  //   }
-  //
-  //   return "Not Going";
-  // }
-  //
-  // if(that.props.userReservations) {
-  //   going = that.didUserReserveThis.bind(that, business.id);
-  //   console.log(index + ": " + going);
-  // }
+  constructor() {
+    super();
+    this.state = {
+      isLoading: false
+    };
+
+    this.didUserReserveThis = this.didUserReserveThis.bind(this);
+  }
+
+  didUserReserveThis(businessId) {
+    let reservations = this.props.userReservations;
+    if (reservations !== undefined) {
+      for(let i = 0; i < reservations.length; i++) {
+        if (reservations[i].businessId === businessId) {
+          return "Going";
+        }
+      }
+    }
+
+    return "Going here?";
+  }
 
   render() {
-    var that = this;
-    var results = this.props.businesses.map(function(business, index) {
-      return (
+    let businesses = this.props.businesses;
+    let results = [];
+    for (let i = 0; i < businesses.length; i++) {
+      let going = "";
+
+      if (this.props.userReservations !== undefined) {
+        going = this.didUserReserveThis(businesses[i].id);
+      }
+
+      let item = (
         <div className="row">
           <div className="col-sm-12 col-md-5 col-lg-4">
-            <img width="200px" height="200px" alt="Business Item" src={business.image_url} className="img-responsive center-block" />
+            <img width="200px" height="200px" alt="Business Item" src={businesses[i].image_url} className="img-responsive center-block" />
           </div>
 
           <div className="col-sm-12 col-md-7 col-lg-8">
-            <a href={business.url} target="_blank"><h3>{business.name}</h3></a>
-            {that.props.isUserLoggedIn &&
-              <button className={`btn btn-success ${business.name}`} onClick={() => {that.props.toggleChoice(business)}}>Going here?</button>
+            <a href={businesses[i].url} target="_blank"><h3>{businesses[i].name}</h3></a>
+            {this.props.isUserLoggedIn &&
+              <button className={`btn btn-success ${businesses[i].name}`} onClick={() => {this.props.toggleChoice(businesses[i])}}>{going}</button>
             }
-            <p><strong>Phone: </strong>{business.phone}</p>
-            <p>{business.location.display_address[0]}</p>
-            <p>{business.location.display_address[1]}</p>
-            <p>{business.location.display_address[2]}</p>
+            <p><strong>Phone: </strong>{businesses[i].phone}</p>
+            <p>{businesses[i].location.display_address[0]}</p>
+            <p>{businesses[i].location.display_address[1]}</p>
+            <p>{businesses[i].location.display_address[2]}</p>
           </div>
         </div>
-      )
-    });
+      );
+      results.push(item);
+    }
 
     return (
       <div className="results">

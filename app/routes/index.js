@@ -42,7 +42,8 @@ module.exports = function(app, passport) {
   var getResults = function(req, res) {
     const searchRequest = {
       term: "restaurant",
-      location: req.params.place
+      location: req.params.place,
+      limit: 10
     };
     var output = [];
 
