@@ -94,7 +94,7 @@ module.exports = function(app, passport) {
       request.post({
         url: 'https://api.twitter.com/oauth/request_token',
         oauth: {
-          oauth_callback: "http://localhost:3000/twitter-callback",
+          oauth_callback: "https://mysterious-harbor-23223.herokuapp.com/twitter-callback",
           consumer_key: configAuth.twitterAuth.consumerKey,
           consumer_secret: configAuth.twitterAuth.consumerSecret
         }
@@ -111,7 +111,7 @@ module.exports = function(app, passport) {
   router.route('/auth/twitter')
     .post((req, res, next) => {
       request.post({
-        url: `https://api.twitter.com/oauth/access_token?oauth_verifier`,
+        url: 'https://api.twitter.com/oauth/access_token?oauth_verifier',
         oauth: {
           consumer_key: configAuth.twitterAuth.consumerKey,
           consumer_secret: configAuth.twitterAuth.consumerSecret,
