@@ -3,21 +3,31 @@ import { Navbar } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import TwitterLogin from 'react-twitter-auth';
+import {
+  removeUser,
+  setUserDetails
+} from '../actions.js';
+import { connect } from 'react-redux';
+
 
 class Navigation extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      isAuthenticated: false,
-      user: "",
-      identification: "?",
-      token: ''
-    };
+  constructor(props) {
+    super(props);
 
     this.onSuccess = this.onSuccess.bind(this);
     this.onFailed = this.onFailed.bind(this);
     this.logout = this.logout.bind(this);
+    this.getUserDetails = this.getUserDetails.bind(this);
+  }
+
+  getUserDetails() {
+    var person = JSON.parse(localStorage['ytrap']);
+    var userDetails = {
+      userName: person.name,
+      userId: person.identity,
+      userToken: person.token
+    };
+    this.props.dispatch(setUserDetails(userDetails));
   }
 
   onSuccess(response) {
@@ -33,14 +43,7 @@ class Navigation extends Component {
             }
           )
         );
-        var person = JSON.parse(localStorage['ytrap']);
-        this.setState({
-          isAuthenticated: true,
-          user: person.name,
-          identification: person.identity,
-          token: person.token
-        });
-        this.props.onUserLogin(person.name, person.identity, person.token);
+        this.getUserDetails();
       }
     });
   }
@@ -50,25 +53,13 @@ class Navigation extends Component {
   }
 
   logout() {
-    this.setState({
-      isAuthenticated: false,
-      token: '',
-      user: "",
-      identification: ""
-    });
+    this.props.dispatch(removeUser());
     localStorage.removeItem('ytrap');
-    this.props.onUserLogout();
   }
 
   componentWillMount() {
     if (localStorage['ytrap'] !== undefined) {
-      var person = JSON.parse(localStorage['ytrap']);
-      this.setState({
-        isAuthenticated : true,
-        user: person.name,
-        identification: person.identity,
-        token: person.token
-      });
+      this.getUserDetails();
     }
   }
 
@@ -78,13 +69,13 @@ class Navigation extends Component {
 			<Navbar inverse collapseOnSelect>
 				<Navbar.Header>
           <NavItem>
-            <Navbar.Brand>FCC Nightlife App</Navbar.Brand>
+            <Navbar.Brand>FCC Resto <i className="fa fa-map-marker" aria-hidden="true"></i></Navbar.Brand>
           </NavItem>
 					<Navbar.Toggle />
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<Nav pullRight>
-          {!this.state.isAuthenticated &&
+          {!this.props.isUserAuthenticated &&
             <NavItem eventKey={1}>
               <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="http://localhost:3000/api/v1/auth/twitter"
               onFailure={this.onFailed} onSuccess={this.onSuccess}
@@ -92,8 +83,8 @@ class Navigation extends Component {
             </NavItem>
           }
 
-          {!!this.state.isAuthenticated &&
-            <NavItem eventKey={1} onClick={this.logout}>{this.state.user} Log Out</NavItem>
+          {!!this.props.isUserAuthenticated  &&
+            <NavItem eventKey={1} onClick={this.logout}>{this.props.user.userName} Log Out</NavItem>
           }
 					</Nav>
 				</Navbar.Collapse>
@@ -108,4 +99,12 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+function mapStateToProps(state) {
+  const { isUserAuthenticated, user } = state;
+  return {
+    isUserAuthenticated,
+    user
+  };
+}
+
+export default connect(mapStateToProps)(Navigation);

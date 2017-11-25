@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 
 class Results extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      isLoading: false
-    };
-
+  constructor(props) {
+    super(props);
     this.didUserReserveThis = this.didUserReserveThis.bind(this);
   }
 
