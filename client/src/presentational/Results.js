@@ -37,7 +37,7 @@ class Results extends Component {
           </div>
 
           <div className="col-sm-12 col-md-7 col-lg-8">
-            <a href={businesses[i].url} target="_blank"><h3>{businesses[i].name}</h3></a>
+            <a className="businessName" href={businesses[i].url} target="_blank"><h3>{businesses[i].name}</h3></a>
             {this.props.isUserLoggedIn &&
               <button className={`btn btn-success ${businesses[i].name}`} onClick={() => {this.props.toggleChoice(businesses[i])}}>{going}</button>
             }

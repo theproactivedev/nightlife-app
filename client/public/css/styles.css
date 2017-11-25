@@ -1,10 +1,16 @@
 body {
   -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Muli', 'Open Sans', sans-serif;
   position: relative;
+  color: #000;
 }
 
+h1 {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 40px;
+  padding-bottom: 15px;
+}
 
 ul {
   margin: 0;
@@ -59,6 +65,10 @@ p {
   margin-bottom: 10px;
 }
 
+a.businessName {
+  font-family: 'Patrick Hand', cursive;
+}
+
 .body {
  min-height: 100vh; /* will cover the 100% of viewport */
  overflow: hidden;
@@ -79,6 +89,11 @@ p {
 
 .icons i:last-of-type {
   margin-right: 0;
+}
+
+.spinner {
+  padding-top: 30px;
+  text-align: center;
 }
 
 footer {

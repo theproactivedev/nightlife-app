@@ -9,6 +9,7 @@ import {
   clearState
 } from '../actions.js';
 import { connect } from 'react-redux';
+import { ClipLoader } from 'react-spinners';
 
 class Content extends Component {
 
@@ -95,9 +96,12 @@ class Content extends Component {
         <SearchBar onSubmit={this.submitForm} onChange={this.handleSearchChange}
         place={this.props.searchedPlace} />
 
-        {this.props.isFetching &&
-          <p>Loading...</p>
-        }
+        <div className="spinner">
+        <ClipLoader
+          color={'#3c3c3d'}
+          loading={this.props.isFetching}
+        />
+        </div>
 
 				{!this.props.isFetching &&
 					<Results isUserLoggedIn={this.props.isUserAuthenticated} businesses={this.props.searchedResults} userReservations={this.props.reservedResults} toggleChoice={this.toggleChoice} />
