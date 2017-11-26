@@ -207,10 +207,6 @@ module.exports = function(app, passport) {
 
   });
 
-  app.route('/').get(function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
-  });
-
   app.use('/api/v1', router);
 
 };
