@@ -41,6 +41,6 @@ app.use(passport.session());
 
 routes(app, passport);
 
-app.listen(process.env.PORT, function() {
+app.listen(process.env.PORT || 3001, function() {
 	console.log("Working");
 });
