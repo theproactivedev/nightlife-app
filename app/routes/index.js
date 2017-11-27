@@ -94,7 +94,7 @@ module.exports = function(app, passport) {
       request.post({
         url: 'https://api.twitter.com/oauth/request_token',
         oauth: {
-          oauth_callback: "https://mysterious-harbor-23223.herokuapp.com/twitter-callback",
+          oauth_callback: "https://morning-lake-82922.herokuapp.com/twitter-callback",
           consumer_key: configAuth.twitterAuth.consumerKey,
           consumer_secret: configAuth.twitterAuth.consumerSecret
         }

@@ -77,9 +77,9 @@ class Navigation extends Component {
 					<Nav pullRight>
           {!this.props.isUserAuthenticated &&
             <NavItem eventKey={1}>
-              <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="https://mysterious-harbor-23223.herokuapp.com/api/v1/auth/twitter"
+              <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="https://morning-lake-82922.herokuapp.com/api/v1/auth/twitter"
               onFailure={this.onFailed} onSuccess={this.onSuccess}
-              requestTokenUrl="https://mysterious-harbor-23223.herokuapp.com/api/v1/auth/twitter/reverse" />
+              requestTokenUrl="https://morning-lake-82922.herokuapp.com/api/v1/auth/twitter/reverse" />
             </NavItem>
           }
 
