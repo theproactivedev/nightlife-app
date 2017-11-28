@@ -207,6 +207,10 @@ module.exports = function(app, passport) {
 
   });
 
+  app.route('/').get(function(req, res) {
+    res.sendFile(path.join(__dirname + '/client/public/index.html'));
+  });
+
   app.use('/api/v1', router);
 
 };
