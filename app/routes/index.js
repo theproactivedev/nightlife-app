@@ -31,7 +31,7 @@ module.exports = function(app, passport) {
   var sendToken = function (req, res) {
     res.setHeader('x-auth-token', req.token);
     return res.status(200).send(JSON.stringify(req.user));
-  };
+  };  
 
   var isContentNotEmpty = function(req, res, next) {
     if (req.body !== undefined) {
@@ -47,20 +47,17 @@ module.exports = function(app, passport) {
     };
     var output = [];
 
-    yelp.accessToken(yelpId, yelpSecret).then(yelpRes => {
-      const client = yelp.client(yelpRes.jsonBody.access_token);
-
-      client.search(searchRequest).then(response => {
-        var firstResult = response.jsonBody.businesses;
-        output = firstResult.slice(0);
-        // const prettyJson = JSON.stringify(firstResult, null, 4);
-
-        res.json(output);
-      });
+    const client = yelp.client(process.env.YELP_KEY);
+    client.search(searchRequest)
+    .then(response => {
+      // console.log(response.jsonBody.businesses[0].name);
+      // const prettyJson = JSON.stringify(firstResult, null, 4);      
+      var firstResult = response.jsonBody.businesses;
+      output = firstResult.slice(0);
+      res.json(output);
     }).catch(e => {
       console.log(e);
     });
-
   };
 
   var authenticate = expressJwt({
@@ -94,7 +91,7 @@ module.exports = function(app, passport) {
       request.post({
         url: 'https://api.twitter.com/oauth/request_token',
         oauth: {
-          oauth_callback: "https://morning-lake-82922.herokuapp.com/twitter-callback",
+          oauth_callback: "http://localhost:3000/twitter-callback",
           consumer_key: configAuth.twitterAuth.consumerKey,
           consumer_secret: configAuth.twitterAuth.consumerSecret
         }
@@ -139,8 +136,7 @@ module.exports = function(app, passport) {
         req.auth = {
           id: req.user.id
         };
-
-
+        
         return next();
       }, generateToken, sendToken);
 

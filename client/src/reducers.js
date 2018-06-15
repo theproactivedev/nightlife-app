@@ -71,7 +71,6 @@ export const restoApp = (state=initialState, action) => {
     case SET_USER_RESERVATIONS :
       return {
         ...state,
-        isFetching: false,
         searchedPlace: action.searchedPlace,
         reservedResults: action.reservedResults
       };

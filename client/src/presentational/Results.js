@@ -53,13 +53,15 @@ class Results extends Component {
 
     return (
       <div className="results">
-      <ul>
-      {results.map((result, index) => {
-        return (
-          <li key={index} className="businessItem">{result}</li>
-        );
-      })}
-      </ul>
+        <div className="container">
+          <ul>
+          {results.map((result, index) => {
+            return (
+              <li key={index} className="businessItem">{result}</li>
+            );
+          })}
+          </ul>
+        </div>
       </div>
     );
   }

@@ -3,9 +3,9 @@ const session = require('express-session');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require('passport');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const path = require('path');
 
 require('dotenv').config();
 mongoose.connect(process.env.MONGO_URI, {useMongoClient: true});

@@ -22,6 +22,6 @@
     "passport": "^0.4.0",
     "passport-twitter-token": "^1.3.0",
     "request": "^2.83.0",
-    "yelp-fusion": "^1.0.3"
+    "yelp-fusion": "^1.0.4"
   }
 }

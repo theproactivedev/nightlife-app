@@ -64,7 +64,13 @@ export function clearState() {
 export function fetchResultsFromYelp(dest) {
   return dispatch => {
     dispatch(requestResults());
-    return fetch(dest)
+    return fetch(dest, {
+      method: "GET",
+      headers: new Headers({
+        'Accept' : 'application/json',
+        'Content-type' : 'application/json'
+      })
+    })
     .then(response => response.json(),
       error => dispatch(rejectResults(error)))
     .then(json => dispatch(receiveResults(json)));
@@ -88,7 +94,6 @@ export function postWithToken(dest, obj, token) {
 
 export function getUserReservations (token) {
   return (dispatch, getState) => {
-    dispatch(requestResults());
     return fetch('/userReservations', {
       method: "GET",
       headers: new Headers({
@@ -103,3 +108,4 @@ export function getUserReservations (token) {
     .then(json => dispatch(fetchResultsFromYelp('/search/' + getState().searchedPlace)));
   };
 }
+

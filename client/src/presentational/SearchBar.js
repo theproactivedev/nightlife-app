@@ -17,6 +17,6 @@ const SearchBar = ({onSubmit, onChange, place}) => {
     </div>
     </div>
   );
-}
+};
 
 export default SearchBar;

@@ -26,8 +26,6 @@ class Content extends Component {
     if (e.target.value === "") {
       this.props.dispatch(clearState());
     } else {
-      // save searched place in the state
-      console.log(e.target.value);
       this.props.dispatch(saveSearchedPlace(e.target.value));
     }
   }
@@ -35,7 +33,6 @@ class Content extends Component {
   getSearchResults() {
     var link = "/search/" + this.props.searchedPlace;
     this.props.dispatch(fetchResultsFromYelp(link));
-    console.log("Link: " + link);
   }
 
   submitForm(e) {
@@ -73,11 +70,36 @@ class Content extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isUserAuthenticated && !this.props.isUserAuthenticated) {
-      this.props.dispatch(getUserReservations(nextProps.user.userToken));
+  // componentWillUpdate(nextProps,prevProps) {
+  //   console.log('ComponentWillUpdate here');
+  //   if (nextProps.isUserAuthenticated === true && prevProps.isUserAuthenticated === false) {
+  //     console.log('Inside if in ComponentWillUpdate');        
+  //     this.props.dispatch(getUserReservations(nextProps.user.userToken));
+  //   }
+  // }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.isUserAuthenticated !== this.props.isUserAuthenticated) {
+      this.props.dispatch(getUserReservations(this.props.user.userToken));
     }
   }
+
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   console.log('ComponentWillUpdate here');
+  //   if (props.isUserAuthenticated === true && state.isUserAuthenticated === false) {
+  //     console.log('Inside if in ComponentWillUpdate');        
+  //     this.props.dispatch(getUserReservations(props.user.userToken));
+  //   }
+
+  //   if(nextProps.params.isUserAuthenticated !== prevState.isUserAuthenticated) { // check id was updated
+  //     return {
+  //       id: nextProps.params.id, // save id in state
+  //     };
+  //   }
+
+  //   // do not update state otherwise
+  //   return null;
+  // }
 
   componentWillMount() {
     if (this.props.isUserAuthenticated) {
@@ -87,7 +109,8 @@ class Content extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
+        <div className="container">
         <div className="row">
           <span className="icons"><i className="fa fa-map-marker" aria-hidden="true"></i><i className="fa fa-users" aria-hidden="true"></i><i className="fa fa-cutlery" aria-hidden="true"></i></span>
           <h1 id="home">Hungry? Want to pig out?</h1>
@@ -102,11 +125,13 @@ class Content extends Component {
           loading={this.props.isFetching}
         />
         </div>
-
-				{!this.props.isFetching &&
-					<Results isUserLoggedIn={this.props.isUserAuthenticated} businesses={this.props.searchedResults} userReservations={this.props.reservedResults} toggleChoice={this.toggleChoice} />
-				}
       </div>
+      <div>
+        {!this.props.isFetching &&
+					<Results isUserLoggedIn={this.props.isUserAuthenticated} businesses={this.props.searchedResults} userReservations={this.props.reservedResults} toggleChoice={this.toggleChoice} />
+        }
+      </div>
+    </div>
     );
   }
 }

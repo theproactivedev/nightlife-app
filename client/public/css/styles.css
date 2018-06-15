@@ -42,22 +42,27 @@ p {
 }
 
 .results {
-  padding-top: 40px;
+  background-color: #dce1e8;
 }
 
 .businessItem {
+  background-color: #fff;
+  box-shadow: 0 8px 6px -6px #ddd;
   padding-bottom: 20px;
-  border-bottom: 2px solid #323233;
+  padding-top: 20px;
   margin-bottom: 20px;
+}
+
+.businessItem:first-of-type {
+  margin-top: 20px;
 }
 
 .businessItem:last-of-type {
   border-bottom: none;
-  margin-bottom: 0;
 }
 
 .businessItem img {
-  border: 1px solid #f7efb7;
+  border: 1px solid #337ab7;
   padding: 8px;
 }
 
