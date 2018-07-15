@@ -70,36 +70,11 @@ class Content extends Component {
     }
   }
 
-  // componentWillUpdate(nextProps,prevProps) {
-  //   console.log('ComponentWillUpdate here');
-  //   if (nextProps.isUserAuthenticated === true && prevProps.isUserAuthenticated === false) {
-  //     console.log('Inside if in ComponentWillUpdate');        
-  //     this.props.dispatch(getUserReservations(nextProps.user.userToken));
-  //   }
-  // }
-
   componentDidUpdate(prevProps) {
     if (prevProps.isUserAuthenticated !== this.props.isUserAuthenticated) {
       this.props.dispatch(getUserReservations(this.props.user.userToken));
     }
   }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   console.log('ComponentWillUpdate here');
-  //   if (props.isUserAuthenticated === true && state.isUserAuthenticated === false) {
-  //     console.log('Inside if in ComponentWillUpdate');        
-  //     this.props.dispatch(getUserReservations(props.user.userToken));
-  //   }
-
-  //   if(nextProps.params.isUserAuthenticated !== prevState.isUserAuthenticated) { // check id was updated
-  //     return {
-  //       id: nextProps.params.id, // save id in state
-  //     };
-  //   }
-
-  //   // do not update state otherwise
-  //   return null;
-  // }
 
   componentWillMount() {
     if (this.props.isUserAuthenticated) {
