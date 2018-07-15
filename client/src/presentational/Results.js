@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Results extends Component {
 
@@ -66,5 +67,13 @@ class Results extends Component {
     );
   }
 }
+
+Results.propTypes = {
+  didUserReserveThis: PropTypes.func.isRequired,
+  toggleChoice: PropTypes.func.isRequired,
+  userReservations: PropTypes.array.isRequired,
+  businesses: PropTypes.array.isRequired,
+  isUserLoggedIn: PropTypes.bool.isRequired
+};
 
 export default Results;
