@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"node server.js\" \"cd client && npm install --only=dev && npm install && npm run build\""
+    "start": "concurrently \"node server.js\" \"cd client && npm install --only=dev && npm install && npm run build && npm i -g serve && serve -s build\""
   },
   "author": "Eirin Gonzales",
   "license": "ISC",
