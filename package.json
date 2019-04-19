@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"node server.js\" \"cd client && npm install --only=dev && npm install && npm run build && npm i -g serve && serve -s build\""
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "Eirin Gonzales",
   "license": "ISC",
