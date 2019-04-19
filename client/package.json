@@ -3,27 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "babel-plugin-emotion": "^8.0.11",
-    "emotion": "^8.0.11",
-    "react": "^16.0.0",
-    "react-bootstrap": "^0.31.5",
-    "react-dom": "^16.0.0",
-    "react-emotion": "^8.0.11",
-    "react-redux": "^5.0.6",
-    "react-router-bootstrap": "^0.24.4",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14",
-    "react-spinners": "^0.2.3",
-    "react-twitter-auth": "0.0.9",
-    "redux": "^3.7.2",
+    "babel-plugin-emotion": "^10.0.9",
+    "bootstrap": "^4.3.1",
+    "emotion": "^10.0.9",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.6",
+    "react-dom": "^16.8.6",
+    "react-emotion": "^10.0.0",
+    "react-redux": "^6.0.1",
+    "react-reveal": "^1.2.2",
+    "react-router-bootstrap": "^0.25.0",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "react-spinners": "^0.5.4",
+    "react-twitter-auth": "0.0.13",
+    "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-css": "node-sass --include-path scss src/styles/_main.scss src/styles/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
-  "proxy": "http://localhost:3001/"
+  "proxy": "http://localhost:3001/",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

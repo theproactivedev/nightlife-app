@@ -1,0 +1,21 @@
+footer {
+  // height: 60px;
+  background-color: #fff;
+  width: 100%;
+
+  p {
+    // position: absolute;
+    // bottom: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  a {
+    color: #e82c8d;
+
+    &:hover {
+      color: #a50c4d;
+    }
+  }
+
+}

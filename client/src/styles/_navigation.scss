@@ -1,0 +1,26 @@
+nav {
+  // height: 65px;
+
+  .navbar-brand {
+    font-size: 1.125rem;
+    position: relative;
+    top: -12px;
+
+    &:hover {
+      color: $dark-color;
+    }
+  }
+
+  .twitter-btn {
+    color: #fff;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 1.125rem;
+
+    &:hover {
+      color: $dark-color;
+    }
+  }
+}
+

@@ -61,10 +61,11 @@ export function clearState() {
   };
 }
 
-export function fetchResultsFromYelp(dest) {
+export function fetchResultsFromYelp(place) {
   return dispatch => {
+    dispatch(saveSearchedPlace(place));
     dispatch(requestResults());
-    return fetch(dest, {
+    return fetch("/search/" + place, {
       method: "GET",
       headers: new Headers({
         'Accept' : 'application/json',

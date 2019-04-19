@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-bootstrap';
-import { Nav } from 'react-bootstrap';
-import { NavItem } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import TwitterLogin from 'react-twitter-auth';
+import { LinkContainer } from 'react-router-bootstrap';
 import {
   removeUser,
   setUserDetails
 } from '../actions.js';
 import { connect } from 'react-redux';
-
 
 class Navigation extends Component {
   constructor(props) {
@@ -66,29 +64,29 @@ class Navigation extends Component {
   render() {
 
     const navbarInstance = (
-			<Navbar inverse collapseOnSelect>
-				<Navbar.Header>
-          <NavItem>
-            <Navbar.Brand>FCC Resto <i className="fa fa-map-marker" aria-hidden="true"></i></Navbar.Brand>
-          </NavItem>
-					<Navbar.Toggle />
-				</Navbar.Header>
-				<Navbar.Collapse>
-					<Nav pullRight>
-          {!this.props.isUserAuthenticated &&
-            <NavItem eventKey={1}>
-              <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="https://eg-fcc-resto.herokuapp.com/api/v1/auth/twitter"
-              onFailure={this.onFailed} onSuccess={this.onSuccess}
-              requestTokenUrl="https://eg-fcc-resto.herokuapp.com/api/v1/auth/twitter/reverse" />
-            </NavItem>
-          }
+      <Navbar className="py-1" bg="pink" variant="dark" expand="lg" collapseOnSelect>
+        <Container>
+          <LinkContainer to="/">
+            <Navbar.Brand>Where to <span className="np-icon np-pig"></span> Out</Navbar.Brand>
+          </LinkContainer>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="justify-content-end w-100" as="ul">
+              {!this.props.isUserAuthenticated &&
+                  <Nav.Item key={1}>
+                    <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="http://localhost:3001/api/v1/auth/twitter"
+                    onFailure={this.onFailed} onSuccess={this.onSuccess}
+                    requestTokenUrl="http://localhost:3001/api/v1/auth/twitter/reverse" />
+                  </Nav.Item>
+                }
 
-          {!!this.props.isUserAuthenticated  &&
-            <NavItem eventKey={1} onClick={this.logout}>{this.props.user.userName} Log Out</NavItem>
-          }
-					</Nav>
-				</Navbar.Collapse>
-			</Navbar>
+                {!!this.props.isUserAuthenticated  &&
+                  <Nav.Item key={1} onClick={this.logout}>{this.props.user.userName} Log Out</Nav.Item>
+                }
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 		);
 
 		return(

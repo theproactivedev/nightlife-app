@@ -8,7 +8,7 @@ const cors = require('cors');
 const path = require('path');
 
 require('dotenv').config();
-mongoose.connect(process.env.MONGO_URI, {useMongoClient: true});
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 var routes = require("./app/routes/index.js");
 require('./app/config/passport.js')(passport);
@@ -26,7 +26,7 @@ var corsOption = {
   exposedHeaders: ['x-auth-token']
 };
 app.use(cors(corsOption));
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
