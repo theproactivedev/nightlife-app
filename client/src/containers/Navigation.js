@@ -74,9 +74,9 @@ class Navigation extends Component {
             <Nav className="justify-content-end w-100" as="ul">
               {!this.props.isUserAuthenticated &&
                   <Nav.Item key={1}>
-                    <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="http://localhost:3001/api/v1/auth/twitter"
+                    <TwitterLogin className="twitter-btn" showIcon={false} loginUrl="https://eg-fcc-resto.herokuapp.com/api/v1/auth/twitter"
                     onFailure={this.onFailed} onSuccess={this.onSuccess}
-                    requestTokenUrl="http://localhost:3001/api/v1/auth/twitter/reverse" />
+                    requestTokenUrl="https://eg-fcc-resto.herokuapp.com/api/v1/auth/twitter/reverse" />
                   </Nav.Item>
                 }
 
