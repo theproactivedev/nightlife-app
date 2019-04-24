@@ -68,8 +68,7 @@ export function fetchResultsFromYelp(place) {
     return fetch("/search/" + place, {
       method: "GET",
       headers: new Headers({
-        'Accept' : 'application/json',
-        'Content-type' : 'application/json'
+        'Accept' : 'application/json'
       })
     })
     .then(response => response.json(),
@@ -105,8 +104,7 @@ export function getUserReservations (token) {
     })
     .then(response => response.json(),
     error => dispatch(rejectResults(error)))
-    .then(json => dispatch(setUserReservations(json)))
-    .then(json => dispatch(fetchResultsFromYelp('/search/' + getState().searchedPlace)));
+    .then(json => dispatch(setUserReservations(json)));
   };
 }
 

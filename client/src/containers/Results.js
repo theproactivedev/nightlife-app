@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Restaurants from '../presentational/Restaurants';
 import { ClipLoader } from 'react-spinners';
-import { postWithToken, getUserReservations } from '../actions.js';
+import { postWithToken } from '../actions.js';
 import SearchBar from './SearchBar';
 import Fade from 'react-reveal/Fade';
 
@@ -34,19 +34,6 @@ class Results extends Component {
       document.getElementsByClassName(item.name)[0].innerHTML = "RSVP";
     }
   }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.isUserAuthenticated !== this.props.isUserAuthenticated) {
-      this.props.dispatch(getUserReservations(this.props.user.userToken));
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.isUserAuthenticated && this.state.user.username !== "") {
-      this.props.dispatch(getUserReservations(this.props.user.userToken));
-    }
-  }
-
 
   render() {
     return (

@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 import { BrowserRouter } from 'react-router-dom';
 import {
   restoApp,
@@ -12,14 +12,14 @@ import {
 import App from './presentational/App';
 import registerServiceWorker from './registerServiceWorker';
 
-const loggerMiddleware = createLogger();
+// const loggerMiddleware = createLogger();
 
 let store = createStore(
   restoApp,
   initialState,
   applyMiddleware(
-    thunkMiddleware,
-    loggerMiddleware
+    thunkMiddleware
+    // ,loggerMiddleware
   )
 );
 

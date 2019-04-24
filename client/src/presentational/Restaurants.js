@@ -12,15 +12,17 @@ class Restaurants extends Component {
 
   didUserReserveThis(businessId) {
     let reservations = this.props.userReservations;
+    let buttonText = "RSVP";
     if (reservations !== undefined) {
       for(let i = 0; i < reservations.length; i++) {
         if (reservations[i].businessId === businessId) {
-          return "RSVP'ed";
+          buttonText = "RSVP'ed";
+          break;
         }
       }
     }
 
-    return "RSVP";
+    return buttonText;
   }
 
   renderStars(rating) {
@@ -40,10 +42,8 @@ class Restaurants extends Component {
       let rsvpBtnClass = "";
       let stars = this.renderStars(Math.round(businesses[i].rating));
 
-      if (userName !== "" && isUserLoggedIn) {
-        if (userReservations !== undefined) {
-          rsvpButton = this.didUserReserveThis(businesses[i].id);
-        }
+      if (userName !== "" && isUserLoggedIn && userReservations !== undefined) {
+        rsvpButton = this.didUserReserveThis(businesses[i].id);
       } else {
         rsvpButton = "Log in to RSVP";
         rsvpBtnClass = "disabled";

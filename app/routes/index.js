@@ -98,7 +98,7 @@ module.exports = function(app, passport) {
         }
       }, function (err, r, body) {
         if (err) {
-          return res.send(500, { message: err.message });
+          return res.status(500).send({ message: err.message });
         }
 
         var jsonStr = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
@@ -118,7 +118,7 @@ module.exports = function(app, passport) {
         form: { oauth_verifier: req.query.oauth_verifier }
       }, function (err, r, body) {
         if (err) {
-          return res.send(500, { message: err.message });
+          return res.status(500).send({ message: err.message });
         }
         const bodyString = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
         const parsedBody = JSON.parse(bodyString);
@@ -130,7 +130,7 @@ module.exports = function(app, passport) {
       });
     }, passport.authenticate('twitter-token', {session: false}), function(req, res, next) {
         if (!req.user) {
-          return res.send(401, 'User Not Authenticated');
+          res.status(401).send("User Not Authenticated");    
         }
 
         // prepare token for API
@@ -204,10 +204,10 @@ module.exports = function(app, passport) {
 
   });
 
-  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
-  });
-  
+  // app.get('*', (req, res) => {
+  //   res.sendFile(path.join(__dirname + '/client/public/index.html'));
+  // });
+
   app.use('/api/v1', router);
 
 };

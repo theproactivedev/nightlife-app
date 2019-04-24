@@ -7163,11 +7163,7 @@ ul {
   padding: 0; }
 
 ul li {
-  list-style-type: none;
-  font-size: 1.125rem; }
-
-p {
-  font-size: 1.125rem; }
+  list-style-type: none; }
 
 .body {
   min-height: 100vh;
@@ -7180,6 +7176,25 @@ p {
   padding-top: 30px;
   text-align: center; }
 
+nav .nav-item:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s; }
+
+nav .nav-item:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1); }
+
 nav .navbar-brand {
   font-size: 1.125rem;
   position: relative;
@@ -7187,14 +7202,20 @@ nav .navbar-brand {
   nav .navbar-brand:hover {
     color: #333333; }
 
-nav .twitter-btn {
-  color: #fff;
+nav .nav-item {
+  font-size: 1.125rem;
+  cursor: pointer;
   background-color: transparent;
   border: none;
   padding: 0;
-  font-size: 1.125rem; }
-  nav .twitter-btn:hover {
-    color: #333333; }
+  position: relative;
+  text-decoration: none;
+  color: #fff; }
+
+nav .twitter-btn {
+  background-color: transparent;
+  border: none;
+  color: #fff; }
 
 .homepage {
   height: 100vh;
@@ -7205,6 +7226,8 @@ nav .twitter-btn {
   .homepage .container {
     position: relative;
     top: 20%; }
+  .homepage p {
+    font-size: 1.125rem; }
 
 .form-control {
   height: calc(1.5em + 0.75rem + 8px); }
@@ -7250,11 +7273,11 @@ nav .twitter-btn {
     .business-item:nth-child(2n) {
       margin-right: 0; }
     .business-item .card-body {
-      height: 363px; } }
+      height: 315px; } }
 
 @media (min-width: 768px) {
   .business-item .card-body {
-    height: 285px; } }
+    height: 270px; } }
 
 @media (min-width: 992px) {
   .homepage .container {
@@ -7267,7 +7290,7 @@ nav .twitter-btn {
     .business-item:nth-child(3n) {
       margin-right: 0; }
     .business-item .card-body {
-      height: 310px; } }
+      height: 275px; } }
 
 @media (min-width: 1200px) {
   .business-item {

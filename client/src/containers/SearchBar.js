@@ -12,16 +12,25 @@ class SearchBar extends Component {
     super(props);
 
     this.state = {
-      input: "",
+      input: this.props.searchedPlace,
       redirect: false
     };
 
     this.submitForm = this.submitForm.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.redirectToResults = this.redirectToResults.bind(this); 
   }
 
   handleSearchChange(e) {
     this.setState({ input: e.target.value });
+  }
+
+  redirectToResults() {
+    if (this.props.fromHome) {
+      this.setState({ redirect : true });
+    } else {
+      this.props.history.push("/search/" + this.state.input);
+    }
   }
 
   async submitForm(e) {
@@ -36,29 +45,32 @@ class SearchBar extends Component {
         )
       );
     }
-
-    if (this.props.fromHome) {
-      this.setState({ redirect : true });
-    } else {
-      this.props.history.push("/search/" + this.state.input);
-    }
+    this.redirectToResults(); 
   }
 
   componentDidMount() {
-    if (!this.props.fromHome) {
-      this.setState({
-        input: this.props.searchedPlace
-      })
+    const { fromHome, isUserAuthenticated, searchedPlace } = this.props;
+    if (fromHome) {
+      if (isUserAuthenticated) {
+        this.setState({
+          input: searchedPlace
+        });
+      } else {
+        this.setState({
+          input: ""
+        });
+      }
     }
   }
 
-  // componentWillUnmount() {
-  //   console.log("Unmounting");
-  //   this.setState({ input: "", redirect : false });
-  //   if (!this.props.fromHome) {
-  //     this.props.dispatch(clearState());
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.searchedPlace !== this.props.searchedPlace && this.props.isUserAuthenticated
+      && this.props.fromHome) {
+      this.setState({
+        input: this.props.searchedPlace
+      });
+    }
+  }
 
   render() {
     if (this.state.redirect && this.props.fromHome) {

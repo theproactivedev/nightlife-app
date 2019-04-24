@@ -26,7 +26,7 @@ var corsOption = {
   exposedHeaders: ['x-auth-token']
 };
 app.use(cors(corsOption));
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -40,6 +40,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 routes(app, passport);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/public/index.html'));
+});
 
 app.listen(process.env.PORT || 3001, function() {
 	console.log("Working");

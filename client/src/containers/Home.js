@@ -6,10 +6,26 @@ import { getUserReservations } from '../actions';
 import Fade from 'react-reveal/Fade';
 
 class Home extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
+    this.getUserReservations = this.getUserReservations.bind(this);
+  }
+
+  getUserReservations() {
     const { isUserAuthenticated, user : { userToken, userName } } = this.props;
     if (isUserAuthenticated && userName !== "" ) {
       this.props.getUserReservations(userToken);
+    }
+  }
+
+  componentDidMount() {
+   this.getUserReservations();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.isUserAuthenticated !== this.props.isUserAuthenticated) {
+      this.getUserReservations();
     }
   }
 
@@ -34,7 +50,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUserReservations
+    getUserReservations: token => dispatch(getUserReservations(token))
   };
 }
 

@@ -12,6 +12,10 @@
     position: relative;
     top: 20%;
   }
+
+  p {
+    font-size: 1.125rem;
+  }
 }
 
 .form-control {
@@ -78,7 +82,7 @@
     }
 
     .card-body {
-      height: 363px;
+      height: 315px;
     }
   }  
 }
@@ -87,7 +91,7 @@
   .business-item {
     // height: 490px;
     .card-body {
-      height: 285px;  
+      height: 270px;  
     }
   }  
 }
@@ -112,7 +116,7 @@
     }
 
     .card-body {
-      height: 310px;
+      height: 275px;
     }
   }  
 }
