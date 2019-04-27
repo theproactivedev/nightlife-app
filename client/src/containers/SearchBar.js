@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  fetchResultsFromYelp,
-  postWithToken
-} from '../actions.js';
+import { fetchResultsFromYelp, changeUserChoices } from '../actions.js';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
@@ -39,7 +36,7 @@ class SearchBar extends Component {
     if (this.props.isUserAuthenticated) {
       // save searched place in the database
       this.props.dispatch(
-        postWithToken('/savingSearchedPlace',
+        changeUserChoices('/savingSearchedPlace',
           { place: this.state.input },
           this.props.user.userToken
         )
@@ -52,13 +49,9 @@ class SearchBar extends Component {
     const { fromHome, isUserAuthenticated, searchedPlace } = this.props;
     if (fromHome) {
       if (isUserAuthenticated) {
-        this.setState({
-          input: searchedPlace
-        });
+        this.setState({ input: searchedPlace });
       } else {
-        this.setState({
-          input: ""
-        });
+        this.setState({ input: "" });
       }
     }
   }
@@ -66,9 +59,7 @@ class SearchBar extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.searchedPlace !== this.props.searchedPlace && this.props.isUserAuthenticated
       && this.props.fromHome) {
-      this.setState({
-        input: this.props.searchedPlace
-      });
+      this.setState({ input: this.props.searchedPlace });
     }
   }
 

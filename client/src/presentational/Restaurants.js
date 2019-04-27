@@ -45,7 +45,7 @@ class Restaurants extends Component {
       if (userName !== "" && isUserLoggedIn && userReservations !== undefined) {
         rsvpButton = this.didUserReserveThis(businesses[i].id);
       } else {
-        rsvpButton = "Log in to RSVP";
+        rsvpButton = "Sign in to RSVP";
         rsvpBtnClass = "disabled";
       }
 

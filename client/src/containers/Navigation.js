@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import TwitterLogin from 'react-twitter-auth';
 import { LinkContainer } from 'react-router-bootstrap';
-import {
-  removeUser,
-  setUserDetails
-} from '../actions.js';
+import { removeUser, setUserDetails } from '../actions.js';
 import { connect } from 'react-redux';
 
 class Navigation extends Component {

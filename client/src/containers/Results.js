@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Restaurants from '../presentational/Restaurants';
 import { ClipLoader } from 'react-spinners';
-import { postWithToken } from '../actions.js';
+import { changeUserChoices } from '../actions.js';
 import SearchBar from './SearchBar';
 import Fade from 'react-reveal/Fade';
 
@@ -18,7 +18,7 @@ class Results extends Component {
     var btnTxt = document.getElementsByClassName(item.name)[0].innerHTML;
     if (btnTxt === "RSVP") {
       this.props.dispatch(
-        postWithToken('/addingUserReservation',
+        changeUserChoices('/addingUserReservation',
           { businessId: item.id },
           this.props.user.userToken
         )
@@ -26,7 +26,7 @@ class Results extends Component {
       document.getElementsByClassName(item.name)[0].innerHTML = "RSVP'ed";
     } else {
       this.props.dispatch(
-        postWithToken('/removingUserReservation',
+        changeUserChoices('/removingUserReservation',
           { identification: item.id },
           this.props.user.userToken
         )

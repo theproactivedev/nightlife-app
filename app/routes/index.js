@@ -1,20 +1,16 @@
 'use strict';
 
 const yelp = require('yelp-fusion');
-const path = require("path");
-var jwt = require('jsonwebtoken');
-var expressJwt = require('express-jwt');
-var express = require("express");
-var router = express.Router();
-var request = require('request');
-var configAuth = require("../config/auth.js");
-var Users = require("../models/Users.js");
-
-const yelpId = process.env.YELP_ID;
-const yelpSecret = process.env.YELP_SECRET;
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+const express = require("express");
+const router = express.Router();
+const request = require('request');
+const configAuth = require("../config/auth.js");
+const Users = require("../models/Users.js");
 
 module.exports = function(app, passport) {
-  var createToken = function(auth) {
+  const createToken = function(auth) {
     return jwt.sign({
       id: auth.id
     },
@@ -24,36 +20,34 @@ module.exports = function(app, passport) {
     });
   };
 
-  var generateToken = function (req, res, next) {
+  const generateToken = function (req, res, next) {
     req.token = createToken(req.auth);
     return next();
   };
 
-  var sendToken = function (req, res) {
+  const sendToken = function (req, res) {
     res.setHeader('x-auth-token', req.token);
     return res.status(200).send(JSON.stringify(req.user));
   };  
 
-  var isContentNotEmpty = function(req, res, next) {
+  const isContentNotEmpty = function(req, res, next) {
     if (req.body !== undefined) {
       return next();
     }
   };
 
-  var getResults = function(req, res) {
-    const searchRequest = {
+  const getResults = function(req, res) {
+    let searchRequest = {
       term: "restaurant",
       location: req.params.place,
       limit: 10
     };
-    var output = [];
+    let output = [];
 
-    const client = yelp.client(process.env.YELP_KEY);
+    let client = yelp.client(process.env.YELP_KEY);
     client.search(searchRequest)
-    .then(response => {
-      // console.log(response.jsonBody.businesses[0].name);
-      // const prettyJson = JSON.stringify(firstResult, null, 4);      
-      var firstResult = response.jsonBody.businesses;
+    .then(response => {   
+      let firstResult = response.jsonBody.businesses;
       output = firstResult.slice(0);
       res.json(output);
     }).catch(e => {
@@ -61,7 +55,7 @@ module.exports = function(app, passport) {
     });
   };
 
-  var authenticate = expressJwt({
+  const authenticate = expressJwt({
     secret: 'my-secret',
     requestProperty: 'auth',
     getToken: function(req) {
@@ -74,7 +68,7 @@ module.exports = function(app, passport) {
     }
   });
 
-  var getCurrentUser = function(req, res, next) {
+  const getCurrentUser = function(req, res, next) {
     Users.findOne({
       "_id" : req.auth.id
     }, function(err, user) {
@@ -101,7 +95,7 @@ module.exports = function(app, passport) {
           return res.status(500).send({ message: err.message });
         }
 
-        var jsonStr = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
+        let jsonStr = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
         res.send(JSON.parse(jsonStr));
       });
     });
@@ -120,8 +114,8 @@ module.exports = function(app, passport) {
         if (err) {
           return res.status(500).send({ message: err.message });
         }
-        const bodyString = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
-        const parsedBody = JSON.parse(bodyString);
+        let bodyString = '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
+        let parsedBody = JSON.parse(bodyString);
         req.body['oauth_token'] = parsedBody.oauth_token;
         req.body['oauth_token_secret'] = parsedBody.oauth_token_secret;
         req.body['user_id'] = parsedBody.user_id;
@@ -148,7 +142,7 @@ module.exports = function(app, passport) {
   .post(authenticate, getCurrentUser,
     isContentNotEmpty,
     function(req, res) {
-    var obj = {
+    let obj = {
       businessId: req.body.businessId
     };
 
@@ -203,10 +197,6 @@ module.exports = function(app, passport) {
     );
 
   });
-
-  // app.get('*', (req, res) => {
-  //   res.sendFile(path.join(__dirname + '/client/public/index.html'));
-  // });
 
   app.use('/api/v1', router);
 

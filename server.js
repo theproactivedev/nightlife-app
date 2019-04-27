@@ -10,23 +10,18 @@ const path = require('path');
 require('dotenv').config();
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
-var routes = require("./app/routes/index.js");
+const routes = require("./app/routes/index.js");
 require('./app/config/passport.js')(passport);
-var app = express();
-
-// var Users = require("./app/models/Users.js");
-// Users.remove({}, function (err) {
-//   console.log(err);
-// });
-
-var corsOption = {
+const app = express();
+const corsOption = {
   origin: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   exposedHeaders: ['x-auth-token']
 };
+
 app.use(cors(corsOption));
-app.use(express.static(path.join(__dirname, 'client/public')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -35,14 +30,13 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 routes(app, passport);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/public/index.html'));
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 app.listen(process.env.PORT || 3001, function() {

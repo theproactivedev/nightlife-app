@@ -7,40 +7,40 @@ export const SAVE_SEARCHED_PLACE = 'SAVE_SEARCHED_PLACE';
 export const SET_USER_RESERVATIONS = 'SET_USER_RESERVATIONS';
 export const CLEAR_STATE = 'CLEAR_STATE';
 
-export function setUserDetails(user) {
+export const setUserDetails = (user) => {
   return {
     type: SET_USER_DETAILS,
     user
   };
 }
 
-export function removeUser() {
+export const removeUser = () => {
   return {
     type: REMOVE_USER
   };
 }
 
-function requestResults() {
+const requestResults = () => {
   return {
     type: FETCH_RESULTS_PENDING
   };
 }
 
-function receiveResults(results) {
+const receiveResults = (results) => {
   return {
     type: FETCH_RESULTS_RECEIVED,
     results
   };
 }
 
-function rejectResults(error) {
+const rejectResults = (error) => {
   return {
     type: FETCH_RESULTS_REJECTED,
     error
   };
 }
 
-function setUserReservations(data) {
+const setUserReservations = (data) => {
   return {
     type: SET_USER_RESERVATIONS,
     searchedPlace: data.searchedPlace,
@@ -48,20 +48,20 @@ function setUserReservations(data) {
   };
 }
 
-export function saveSearchedPlace(place) {
+export const saveSearchedPlace = (place) => {
   return {
     type: SAVE_SEARCHED_PLACE,
     place
   };
 }
 
-export function clearState() {
+export const clearState = () => {
   return {
     type: CLEAR_STATE
   };
 }
 
-export function fetchResultsFromYelp(place) {
+export const fetchResultsFromYelp = (place) => {
   return dispatch => {
     dispatch(saveSearchedPlace(place));
     dispatch(requestResults());
@@ -77,7 +77,7 @@ export function fetchResultsFromYelp(place) {
   };
 }
 
-export function postWithToken(dest, obj, token) {
+export const changeUserChoices = (dest, obj, token) => {
   return (dispatch) => {
     return fetch(dest, {
         method: "POST",
@@ -92,7 +92,7 @@ export function postWithToken(dest, obj, token) {
   };
 }
 
-export function getUserReservations (token) {
+export const getUserReservations = (token) => {
   return (dispatch, getState) => {
     return fetch('/userReservations', {
       method: "GET",
